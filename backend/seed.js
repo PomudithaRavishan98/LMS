@@ -11,11 +11,11 @@ async function seed() {
   // Create teacher account
   const existing = await User.findOne({ email: process.env.TEACHER_EMAIL });
   if (!existing) {
-    const passwordHash = await bcrypt.hash('Admin@1234', 12);
+    // Pass the plain password; the User model's pre-save hook hashes it
     await User.create({
       name: process.env.TEACHER_NAME || 'Teacher Admin',
       email: process.env.TEACHER_EMAIL || 'teacher@example.com',
-      passwordHash,
+      passwordHash: 'Admin@1234',
       role: 'teacher',
       isApproved: true,
     });
